@@ -245,7 +245,13 @@ export const FxRunwayModule: React.FC = () => {
 
       {/* Accounts List */}
       <div className="mt-4 divide-y divide-white/[0.06]">
-        {accounts.map((acc) => {
+        {accounts.length === 0 ? (
+          <div className="py-6 text-center text-[12px] text-[#71717a]">
+            No accounts added yet. Click &ldquo;+ Account&rdquo; above to add a
+            balance.
+          </div>
+        ) : (
+          accounts.map((acc) => {
           const valInBase = convertCurrency(
             acc.balance,
             acc.currency,
@@ -315,7 +321,8 @@ export const FxRunwayModule: React.FC = () => {
               </div>
             </div>
           );
-        })}
+        })
+        )}
       </div>
 
       {/* Location Burn & Runway Comparison */}

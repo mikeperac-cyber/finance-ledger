@@ -2,8 +2,9 @@ import React from 'react';
 import {
   Sliders,
   Download,
-  RotateCcw,
+  Trash2,
   Plus,
+  BookOpen,
 } from 'lucide-react';
 import { useLedgerStore } from '../store/useLedgerStore';
 import {
@@ -17,7 +18,8 @@ export type WorkspaceSection =
   | 'overview'
   | 'ledger'
   | 'cooldown'
-  | 'fx';
+  | 'fx'
+  | 'instructions';
 
 interface NavigationProps {
   activeSection: WorkspaceSection;
@@ -41,7 +43,7 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
     cooldownItems,
     setBaseCurrency,
     updateProfile,
-    resetToDemoData,
+    clearAllData,
   } = useLedgerStore();
 
   const hourlyRate = computeNetHourlyRate(profile);
@@ -68,6 +70,7 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
       badge: activeCooldownCount > 0 ? activeCooldownCount : undefined,
     },
     { id: 'fx', label: 'Accounts & Runway' },
+    { id: 'instructions', label: 'Instructions & Guide' },
   ];
 
   const handleDisplayMode = (mode: DisplayMode) => {
@@ -119,7 +122,12 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
                     : 'text-[#8a8f98] hover:bg-white/[0.04] hover:text-[#d4d4d8]'
                 }`}
               >
-                <span>{item.label}</span>
+                <span className="flex items-center gap-2">
+                  {item.id === 'instructions' && (
+                    <BookOpen className="h-3.5 w-3.5 opacity-75" />
+                  )}
+                  <span>{item.label}</span>
+                </span>
                 {item.badge !== undefined && (
                   <span className="font-mono text-[11px] text-[#a1a1aa]">
                     {item.badge}
@@ -130,11 +138,15 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
           })}
         </nav>
 
-        {/* Accounts Summary List (Mercury / Copilot style) */}
-        <div className="pt-2 border-t border-white/[0.06]">
+        {/* Accounts Summary List */}
+        <div className="pt-3 border-t border-white/[0.06]">
           <div className="flex items-center justify-between px-2 mb-2">
             <span className="text-[11px] font-medium text-[#71717a]">
-              Accounts ({formatCurrency(totalNetWorthBase, base, currencies, { compact: true })})
+              Accounts (
+              {formatCurrency(totalNetWorthBase, base, currencies, {
+                compact: true,
+              })}
+              )
             </span>
             <button
               type="button"
@@ -142,34 +154,44 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
               className="text-[11px] text-[#8a8f98] hover:text-white flex items-center gap-0.5"
             >
               <Plus className="h-3 w-3" />
-              <span>Manage</span>
+              <span>Add</span>
             </button>
           </div>
 
-          <div className="space-y-0.5">
-            {accounts.map((acc) => (
-              <button
-                key={acc.id}
-                type="button"
-                onClick={() => onSelectSection('fx')}
-                className="flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left transition hover:bg-white/[0.04]"
-              >
-                <div className="min-w-0 pr-2">
-                  <div className="truncate text-[12px] text-[#d4d4d8]">
-                    {acc.name.replace(/ Checking| Vault| Local Settlement| Borderless/g, '')}
+          {accounts.length === 0 ? (
+            <button
+              type="button"
+              onClick={() => onSelectSection('fx')}
+              className="w-full rounded-lg border border-dashed border-white/[0.08] px-3 py-3 text-left text-[11px] text-[#71717a] transition hover:border-white/20 hover:text-[#a1a1aa]"
+            >
+              No accounts yet — click to add your first balance
+            </button>
+          ) : (
+            <div className="space-y-0.5">
+              {accounts.map((acc) => (
+                <button
+                  key={acc.id}
+                  type="button"
+                  onClick={() => onSelectSection('fx')}
+                  className="flex w-full items-center justify-between rounded-md px-2 py-1.5 text-left transition hover:bg-white/[0.04]"
+                >
+                  <div className="min-w-0 pr-2">
+                    <div className="truncate text-[12px] text-[#d4d4d8]">
+                      {acc.name}
+                    </div>
+                    <div className="text-[10px] text-[#71717a]">
+                      {acc.isBusiness ? 'Business' : 'Personal'} · {acc.currency}
+                    </div>
                   </div>
-                  <div className="text-[10px] text-[#71717a]">
-                    {acc.isBusiness ? 'Business' : 'Personal'} · {acc.currency}
-                  </div>
-                </div>
-                <span className="font-mono text-[12px] text-[#e4e4e7] tabular-nums shrink-0">
-                  {formatCurrency(acc.balance, acc.currency, currencies, {
-                    decimals: 0,
-                  })}
-                </span>
-              </button>
-            ))}
-          </div>
+                  <span className="font-mono text-[12px] text-[#e4e4e7] tabular-nums shrink-0">
+                    {formatCurrency(acc.balance, acc.currency, currencies, {
+                      decimals: 0,
+                    })}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -178,13 +200,15 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
         {/* Work Rate Card */}
         <div className="rounded-lg border border-white/[0.07] bg-[#14161a] p-3">
           <div className="flex items-center justify-between">
-            <span className="text-[11px] text-[#8a8f98]">Effective hourly rate</span>
+            <span className="text-[11px] text-[#8a8f98]">
+              Effective hourly rate
+            </span>
             <button
               type="button"
               onClick={onOpenConfig}
               className="text-[11px] font-medium text-[#d4d4d8] underline decoration-white/25 underline-offset-2 hover:text-white"
             >
-              Edit
+              {hourlyRate > 0 ? 'Edit' : 'Set up'}
             </button>
           </div>
           <div className="mt-1 flex items-baseline gap-1.5">
@@ -256,11 +280,11 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
 
           <button
             type="button"
-            onClick={resetToDemoData}
-            title="Reset sample data"
-            className="rounded-lg border border-white/[0.08] bg-[#14161a] p-1.5 text-[#8a8f98] transition hover:border-white/20 hover:text-white"
+            onClick={clearAllData}
+            title="Clear all stored data"
+            className="rounded-lg border border-white/[0.08] bg-[#14161a] p-1.5 text-[#8a8f98] transition hover:border-white/20 hover:text-[#e16d6d]"
           >
-            <RotateCcw className="h-4 w-4" />
+            <Trash2 className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -363,6 +387,7 @@ export const CompactHeaderBar: React.FC<NavigationProps> = ({
             { id: 'ledger', label: 'Transactions' },
             { id: 'cooldown', label: 'Cooling-Off' },
             { id: 'fx', label: 'Accounts & FX' },
+            { id: 'instructions', label: 'Instructions' },
           ] as const
         ).map((tab) => (
           <button

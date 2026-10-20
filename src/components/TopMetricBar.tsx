@@ -147,8 +147,9 @@ export const TopMetricBar: React.FC<TopMetricBarProps> = ({
     totalBlendedNetWorthBase - totalPartitionedTaxReserveBase
   );
 
-  const monthlyBurnBase = Math.max(100, profile.locationBurnRateMonthly);
-  const runwayMonths = liquidNetWorthBase / monthlyBurnBase;
+  const monthlyBurnBase = profile.locationBurnRateMonthly;
+  const runwayMonths =
+    monthlyBurnBase > 0 ? liquidNetWorthBase / monthlyBurnBase : 0;
   const runwayYears = runwayMonths / 12;
 
   const totalNetWorthLifeHours = computeLifeHours(
@@ -320,7 +321,9 @@ export const TopMetricBar: React.FC<TopMetricBarProps> = ({
                 Net worth &amp; runway
               </span>
               <span className="font-mono text-[12px] text-[#78b090] tabular-nums">
-                {runwayMonths.toFixed(1)} months ({runwayYears.toFixed(1)} yrs)
+                {monthlyBurnBase > 0
+                  ? `${runwayMonths.toFixed(1)} months (${runwayYears.toFixed(1)} yrs)`
+                  : 'Set burn rate'}
               </span>
             </div>
 

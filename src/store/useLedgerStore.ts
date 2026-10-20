@@ -18,281 +18,25 @@ import {
   DEFAULT_CURRENCIES,
 } from '../utils/currency';
 
-const now = Date.now();
-const todayISO = new Date(now).toISOString();
-const yesterdayISO = new Date(now - 86400 * 1000).toISOString();
-const twoDaysAgoISO = new Date(now - 2 * 86400 * 1000).toISOString();
-const threeDaysAgoISO = new Date(now - 3 * 86400 * 1000).toISOString();
-const fiveDaysAgoISO = new Date(now - 5 * 86400 * 1000).toISOString();
-const sevenDaysAgoISO = new Date(now - 7 * 86400 * 1000).toISOString();
-
 export const INITIAL_PROFILE: FinancialProfile = {
-  monthlyGrossIncome: 14500,
-  monthlyNetIncome: 10500,
-  weeklyWorkHours: 35,
-  taxBufferPercent: 28,
+  monthlyGrossIncome: 0,
+  monthlyNetIncome: 0,
+  weeklyWorkHours: 40,
+  taxBufferPercent: 25,
   baseCurrency: 'USD',
-  locationBurnRateMonthly: 4650,
-  locationName: 'Lisbon / EU Hub',
-  cooldownMultiplier: 1.0, // 1 hour cooldown per 1 work hour required
+  locationBurnRateMonthly: 0,
+  locationName: 'Current Location',
+  cooldownMultiplier: 1.0,
   displayMode: 'dual',
 };
 
-export const INITIAL_ACCOUNTS: Account[] = [
-  {
-    id: 'acc-mercury-usd',
-    name: 'Mercury Operating Checking',
-    institution: 'Mercury Bank (US)',
-    currency: 'USD',
-    balance: 48250.0,
-    type: 'checking',
-    isBusiness: true,
-  },
-  {
-    id: 'acc-wise-eur',
-    name: 'Wise Borderless EUR',
-    institution: 'Wise Europe SA',
-    currency: 'EUR',
-    balance: 19400.0,
-    type: 'fx-wallet',
-    isBusiness: false,
-  },
-  {
-    id: 'acc-revolut-gbp',
-    name: 'Revolut Metal Vault',
-    institution: 'Revolut UK',
-    currency: 'GBP',
-    balance: 11200.0,
-    type: 'fx-wallet',
-    isBusiness: false,
-  },
-  {
-    id: 'acc-garanti-try',
-    name: 'Garanti BBVA Local Settlement',
-    institution: 'Garanti BBVA',
-    currency: 'TRY',
-    balance: 185400.0,
-    type: 'checking',
-    isBusiness: false,
-  },
-];
+export const INITIAL_ACCOUNTS: Account[] = [];
 
-export const INITIAL_COMMITMENTS: FixedCommitment[] = [
-  {
-    id: 'fix-rent',
-    name: 'Loft Lease & Utilities (Lisbon)',
-    amount: 1750,
-    currency: 'EUR',
-    category: 'housing',
-    active: true,
-  },
-  {
-    id: 'fix-etf',
-    name: 'Vanguard VWCE Auto-Invest Vault',
-    amount: 2200,
-    currency: 'USD',
-    category: 'investment',
-    active: true,
-  },
-  {
-    id: 'fix-health',
-    name: 'Cigna Global Health & Sovereign Cover',
-    amount: 340,
-    currency: 'USD',
-    category: 'insurance',
-    active: true,
-  },
-  {
-    id: 'fix-infra',
-    name: 'Core Fiber, Security & Cold Backup Vault',
-    amount: 195,
-    currency: 'EUR',
-    category: 'infrastructure',
-    active: true,
-  },
-];
+export const INITIAL_COMMITMENTS: FixedCommitment[] = [];
 
-export const INITIAL_TRANSACTIONS: Transaction[] = [
-  {
-    id: 'tx-1',
-    date: todayISO,
-    title: 'Specialty Pour-Over & Matcha',
-    amount: 18.5,
-    currency: 'EUR',
-    direction: 'expense',
-    firewall: 'personal',
-    isTaxDeductible: false,
-    category: 'Dining',
-    accountId: 'acc-wise-eur',
-    method: 'card',
-    taxReservedAmount: 0,
-    notes: 'Copenhagen Coffee Lab',
-  },
-  {
-    id: 'tx-2',
-    date: todayISO,
-    title: 'Q4 Systems Architecture Retainer',
-    amount: 6500.0,
-    currency: 'USD',
-    direction: 'income',
-    firewall: 'business',
-    isTaxDeductible: false,
-    category: 'Client Revenue',
-    accountId: 'acc-mercury-usd',
-    method: 'wire',
-    taxReservedAmount: 1820.0, // 28% auto-partitioned into tax reserve
-    notes: 'Auto-partitioned 28% ($1,820.00) into Tax Reserve',
-  },
-  {
-    id: 'tx-3',
-    date: yesterdayISO,
-    title: 'Anthropic Claude API & Cursor Pro Cluster',
-    amount: 145.0,
-    currency: 'USD',
-    direction: 'expense',
-    firewall: 'business',
-    isTaxDeductible: true,
-    category: 'Software & SaaS',
-    accountId: 'acc-mercury-usd',
-    method: 'card',
-    taxReservedAmount: 0,
-    notes: '100% R&D Tooling Tax Write-Off',
-  },
-  {
-    id: 'tx-4',
-    date: twoDaysAgoISO,
-    title: 'Bosphorus Seafood Dinner w/ Friends',
-    amount: 2450.0,
-    currency: 'TRY',
-    direction: 'expense',
-    firewall: 'personal',
-    isTaxDeductible: false,
-    category: 'Dining',
-    accountId: 'acc-garanti-try',
-    method: 'card',
-    taxReservedAmount: 0,
-    notes: 'Karaköy Lokantası',
-  },
-  {
-    id: 'tx-5',
-    date: threeDaysAgoISO,
-    title: 'Fintech Audit & Security Review Milestone',
-    amount: 3200.0,
-    currency: 'GBP',
-    direction: 'income',
-    firewall: 'business',
-    isTaxDeductible: false,
-    category: 'Client Revenue',
-    accountId: 'acc-revolut-gbp',
-    method: 'wire',
-    taxReservedAmount: 896.0, // 28% of 3200 GBP
-    notes: 'Canary Wharf Advisory Ltd',
-  },
-  {
-    id: 'tx-6',
-    date: fiveDaysAgoISO,
-    title: 'Vercel Pro + AWS Route53 Production Infra',
-    amount: 84.0,
-    currency: 'EUR',
-    direction: 'expense',
-    firewall: 'business',
-    isTaxDeductible: true,
-    category: 'Software & SaaS',
-    accountId: 'acc-wise-eur',
-    method: 'card',
-    taxReservedAmount: 0,
-    notes: 'Monthly cloud hosting invoice',
-  },
-  {
-    id: 'tx-7',
-    date: fiveDaysAgoISO,
-    title: 'Organic Farmers Market & Olive Oil',
-    amount: 92.4,
-    currency: 'EUR',
-    direction: 'expense',
-    firewall: 'personal',
-    isTaxDeductible: false,
-    category: 'Groceries',
-    accountId: 'acc-wise-eur',
-    method: 'card',
-    taxReservedAmount: 0,
-  },
-  {
-    id: 'tx-8',
-    date: sevenDaysAgoISO,
-    title: 'International Tax CPA Quarterly Filing',
-    amount: 420.0,
-    currency: 'USD',
-    direction: 'expense',
-    firewall: 'business',
-    isTaxDeductible: true,
-    category: 'Workspace & Ops',
-    accountId: 'acc-mercury-usd',
-    method: 'ach',
-    taxReservedAmount: 0,
-    notes: 'Cross-border compliance advisory',
-  },
-];
+export const INITIAL_TRANSACTIONS: Transaction[] = [];
 
-export const INITIAL_COOLDOWN_ITEMS: CooldownItem[] = [
-  {
-    id: 'cool-1',
-    title: 'Apple Studio Display 27" Nano-Texture',
-    amount: 1899,
-    currency: 'USD',
-    category: 'Hardware & Gear',
-    firewall: 'business',
-    createdAt: now - 12 * 3600 * 1000, // Started 12h ago
-    durationMs: 27.4 * 3600 * 1000, // 27.4 hours total cooldown (15.4h left)
-    multiplierUsed: 1.0,
-    lifeHoursRequired: 27.4,
-    status: 'cooling',
-    notes: 'Evaluating if current 4K OLED monitor is sufficient for Q4.',
-  },
-  {
-    id: 'cool-2',
-    title: 'Teenage Engineering OP-1 Field Synthesizer',
-    amount: 1999,
-    currency: 'EUR',
-    category: 'Lifestyle',
-    firewall: 'personal',
-    createdAt: now - 32 * 3600 * 1000, // Already completed cooldown! Ready for decision
-    durationMs: 31.3 * 3600 * 1000,
-    multiplierUsed: 1.0,
-    lifeHoursRequired: 31.3,
-    status: 'cooling',
-    notes: 'Cooldown complete — ready to Approve or Dismiss & Save.',
-  },
-  {
-    id: 'cool-3',
-    title: 'Rimowa Original Cabin Titanium Carry-On',
-    amount: 1450,
-    currency: 'EUR',
-    category: 'Travel & Transit',
-    firewall: 'personal',
-    createdAt: now - 2 * 3600 * 1000, // Started 2h ago
-    durationMs: 22.7 * 3600 * 1000,
-    multiplierUsed: 1.0,
-    lifeHoursRequired: 22.7,
-    status: 'cooling',
-    notes: 'Impulse after Lisbon flight boarding.',
-  },
-  {
-    id: 'cool-4',
-    title: 'Custom Split Mechanical Keyboard Build',
-    amount: 640,
-    currency: 'USD',
-    category: 'Hardware & Gear',
-    firewall: 'personal',
-    createdAt: now - 96 * 3600 * 1000,
-    durationMs: 9.2 * 3600 * 1000,
-    multiplierUsed: 1.0,
-    lifeHoursRequired: 9.2,
-    status: 'dismissed',
-    resolvedAt: now - 72 * 3600 * 1000,
-    notes: 'Dismissed after cooling period — saved 9.2 life hours.',
-  },
-];
+export const INITIAL_COOLDOWN_ITEMS: CooldownItem[] = [];
 
 interface AddTransactionInput {
   title: string;
@@ -354,7 +98,7 @@ interface LedgerState {
   deleteCooldownItem: (id: string) => void;
 
   // System Actions
-  resetToDemoData: () => void;
+  clearAllData: () => void;
 }
 
 export const useLedgerStore = create<LedgerState>()(
@@ -433,7 +177,6 @@ export const useLedgerStore = create<LedgerState>()(
           (Object.keys(nextCurrencies) as CurrencyCode[]).forEach((code) => {
             if (code === 'USD') return;
             const current = nextCurrencies[code].ratePerUSD;
-            // Subtle +/- 0.6% market tick
             const deltaPercent = (Math.random() - 0.48) * 0.012;
             const updated = Number(
               Math.max(0.01, current * (1 + deltaPercent)).toFixed(
@@ -450,8 +193,8 @@ export const useLedgerStore = create<LedgerState>()(
 
       addTransaction: (input) => {
         const state = get();
-        // Match an account with the same currency, or fallback to first account
-        const matchingAccount =
+
+        let targetAccount =
           state.accounts.find((a) => a.id === input.accountId) ||
           state.accounts.find(
             (a) =>
@@ -461,7 +204,22 @@ export const useLedgerStore = create<LedgerState>()(
           state.accounts.find((a) => a.currency === input.currency) ||
           state.accounts[0];
 
-        const accountId = matchingAccount ? matchingAccount.id : 'acc-mercury-usd';
+        // If user has no accounts yet, automatically create a default account for this currency
+        let autoCreatedAccount: Account | null = null;
+        if (!targetAccount) {
+          autoCreatedAccount = {
+            id: `acc-${Date.now()}`,
+            name: `${input.currency} ${input.firewall === 'business' ? 'Business' : 'Primary'} Account`,
+            institution: 'Primary Custodian',
+            currency: input.currency,
+            balance: 0,
+            type: 'checking',
+            isBusiness: input.firewall === 'business',
+          };
+          targetAccount = autoCreatedAccount;
+        }
+
+        const accountId = targetAccount.id;
 
         const isBizIncome =
           input.firewall === 'business' && input.direction === 'income';
@@ -497,7 +255,11 @@ export const useLedgerStore = create<LedgerState>()(
         };
 
         set((prev) => {
-          const updatedAccounts = prev.accounts.map((acc) => {
+          const baseAccounts = autoCreatedAccount
+            ? [...prev.accounts, autoCreatedAccount]
+            : prev.accounts;
+
+          const updatedAccounts = baseAccounts.map((acc) => {
             if (acc.id !== accountId) return acc;
             const amountInAccCurrency = convertCurrency(
               input.amount,
@@ -626,7 +388,9 @@ export const useLedgerStore = create<LedgerState>()(
           state.currencies
         );
         const multiplier = Math.max(0.1, state.profile.cooldownMultiplier || 1);
-        const coolingHours = Math.max(0.25, lifeHours * multiplier);
+        // If user hasn't set net income yet (lifeHours === 0), default to a 24h cooling period
+        const coolingHours =
+          lifeHours > 0 ? Math.max(0.25, lifeHours * multiplier) : 24;
         const durationMs = Math.round(coolingHours * 3600 * 1000);
 
         const newItem: CooldownItem = {
@@ -656,7 +420,6 @@ export const useLedgerStore = create<LedgerState>()(
         const item = state.cooldownItems.find((c) => c.id === id);
         if (!item || item.status !== 'cooling') return;
 
-        // Log it as a real transaction in the ledger!
         state.addTransaction({
           title: `${item.title} (Approved Cooldown)`,
           amount: item.amount,
@@ -666,7 +429,7 @@ export const useLedgerStore = create<LedgerState>()(
           isTaxDeductible: item.firewall === 'business',
           category: item.category,
           method: 'card',
-          notes: `Approved after ${item.lifeHoursRequired.toFixed(1)} life-hr cooldown review`,
+          notes: `Approved after cooldown review`,
         });
 
         set((prev) => ({
@@ -704,18 +467,18 @@ export const useLedgerStore = create<LedgerState>()(
           cooldownItems: state.cooldownItems.filter((c) => c.id !== id),
         })),
 
-      resetToDemoData: () =>
+      clearAllData: () =>
         set({
           profile: INITIAL_PROFILE,
           currencies: DEFAULT_CURRENCIES,
-          accounts: INITIAL_ACCOUNTS,
-          commitments: INITIAL_COMMITMENTS,
-          transactions: INITIAL_TRANSACTIONS,
-          cooldownItems: INITIAL_COOLDOWN_ITEMS,
+          accounts: [],
+          commitments: [],
+          transactions: [],
+          cooldownItems: [],
         }),
     }),
     {
-      name: 'equinox-ledger-v1',
+      name: 'equinox-ledger-clean-v1',
     }
   )
 );
