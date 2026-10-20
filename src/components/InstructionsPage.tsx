@@ -327,6 +327,31 @@ export const InstructionsPage: React.FC<InstructionsPageProps> = ({
           </p>
         </section>
       </div>
+
+      {/* Privacy & Data Sovereignty Footer (Microsoft Store Policy 10.5.1) */}
+      <section className="rounded-xl border border-white/[0.08] bg-[#121417] p-5">
+        <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
+          <div>
+            <h3 className="text-[14px] font-medium text-white">
+              Privacy Policy &amp; Local Data Sovereignty
+            </h3>
+            <p className="mt-1 text-[12px] leading-relaxed text-[#8a8f98]">
+              Equinox Ledger stores 100% of your financial data locally on your
+              device (<code className="font-mono">localStorage</code> or local{' '}
+              <code className="font-mono">.equinox.json</code> files). Zero
+              cloud telemetry, zero tracking, and zero third-party data sharing.
+            </p>
+          </div>
+          <a
+            href="./privacy.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 rounded-lg border border-white/[0.1] bg-[#181a1f] px-3.5 py-2 text-[12px] font-medium text-white transition hover:bg-white/[0.1]"
+          >
+            View Privacy Policy
+          </a>
+        </div>
+      </section>
     </div>
   );
 };

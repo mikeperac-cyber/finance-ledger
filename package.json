@@ -2,7 +2,7 @@
   "name": "equinox-ledger",
   "productName": "Equinox Ledger",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Unified Multi-Currency Personal & Solo-Business Financial Engine",
   "main": "electron/main.cjs",
   "type": "module",
@@ -10,6 +10,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "build:exe": "tsc -b && vite build && node scripts/build-exe.mjs",
+    "build:store": "tsc -b && vite build && node scripts/build-exe.mjs",
     "preview": "vite preview",
     "desktop": "npm run build && npx --yes electron .",
     "desktop:build": "npm run build && npx --yes electron-builder"
@@ -25,7 +26,15 @@
       "electron/**/*"
     ],
     "win": {
-      "target": ["portable", "zip"]
+      "target": ["appx", "portable", "zip"],
+      "icon": "public/icons/icon.ico"
+    },
+    "appx": {
+      "applicationId": "EquinoxLedger",
+      "identityName": "EquinoxLedger.FinancialEngine",
+      "publisher": "CN=EquinoxFinancialTools",
+      "publisherDisplayName": "Equinox Financial Tools",
+      "backgroundColor": "#0c0d0f"
     },
     "mac": {
       "target": ["dmg", "zip"]

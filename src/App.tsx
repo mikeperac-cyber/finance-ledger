@@ -22,8 +22,19 @@ import { MobileBottomSheetInput } from './components/MobileBottomSheetInput';
 import { useLedgerStore } from './store/useLedgerStore';
 
 export function App() {
-  const [activeSection, setActiveSection] =
-    useState<WorkspaceSection>('overview');
+  const [activeSection, setActiveSection] = useState<WorkspaceSection>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view') as WorkspaceSection | null;
+      if (
+        view &&
+        ['overview', 'ledger', 'cooldown', 'fx', 'instructions'].includes(view)
+      ) {
+        return view;
+      }
+    }
+    return 'overview';
+  });
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [isTaxExportOpen, setIsTaxExportOpen] = useState(false);
   const [isDesktopModalOpen, setIsDesktopModalOpen] = useState(false);

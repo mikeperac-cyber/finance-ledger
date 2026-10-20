@@ -6,7 +6,8 @@ import {
   HardDrive,
   Upload,
   Check,
-  Terminal,
+  ShieldCheck,
+  Package,
 } from 'lucide-react';
 import { useLedgerStore } from '../store/useLedgerStore';
 
@@ -168,9 +169,8 @@ export const DesktopDownloadModal: React.FC<DesktopDownloadModalProps> = ({
                   <code className="font-mono text-[#d4d4d8]">
                     Equinox-Ledger-Desktop.exe
                   </code>
-                  ). Double-click to launch Equinox in its own dedicated offline
-                  desktop window with persistent local storage — no Node.js or
-                  installation required.
+                  ) with custom app icon and version metadata. Double-click to
+                  launch in a dedicated offline desktop window.
                 </p>
               </div>
 
@@ -180,13 +180,13 @@ export const DesktopDownloadModal: React.FC<DesktopDownloadModalProps> = ({
                   download="Equinox-Ledger-Desktop.exe"
                   onClick={() =>
                     showToast(
-                      'Downloading Equinox-Ledger-Desktop.exe — double-click the .exe to launch Equinox on your desktop.'
+                      'Downloading Equinox-Ledger-Desktop.exe — double-click to launch Equinox on your desktop.'
                     )
                   }
                   className="flex items-center gap-1.5 rounded-lg bg-[#ededef] px-4 py-2 text-[12px] font-medium text-[#0c0d0f] transition hover:bg-white"
                 >
                   <Download className="h-3.5 w-3.5" />
-                  <span>Download Windows .exe</span>
+                  <span>Download Portable .exe</span>
                 </a>
 
                 {deferredPrompt && (
@@ -203,14 +203,96 @@ export const DesktopDownloadModal: React.FC<DesktopDownloadModalProps> = ({
             </div>
           </div>
 
-          {/* Option 2: Local Hard-Drive Database Vault (.equinox.json) */}
+          {/* Option 2: Microsoft Store Ready Packages (.msix & Silent Setup .exe) */}
           <div className="rounded-xl border border-white/[0.08] bg-[#0c0d0f] p-4">
             <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
               <div>
                 <div className="flex items-center gap-2">
-                  <HardDrive className="h-4 w-4 text-[#78b090]" />
+                  <Package className="h-4 w-4 text-[#78b090]" />
                   <h3 className="text-[14px] font-medium text-white">
-                    2. Local Desktop Database File (.equinox.json)
+                    2. Microsoft Store Submission Packages (.msix &amp; Setup .exe)
+                  </h3>
+                  <span className="rounded bg-white/[0.08] px-1.5 py-0.5 font-mono text-[10px] text-[#78b090]">
+                    STORE READY
+                  </span>
+                </div>
+                <p className="mt-1 text-[12px] leading-relaxed text-[#8a8f98]">
+                  Packaged for Microsoft Partner Center: choose the native{' '}
+                  <code className="font-mono text-[#d4d4d8]">
+                    Equinox-Ledger.msix
+                  </code>{' '}
+                  package (with <code className="font-mono">AppxManifest.xml</code>{' '}
+                  &amp; Store visual assets) or the silent-capable Win32 installer{' '}
+                  (supports <code className="font-mono">/S</code>,{' '}
+                  <code className="font-mono">/quiet</code>,{' '}
+                  <code className="font-mono">/uninstall</code>).
+                </p>
+              </div>
+
+              <div className="flex shrink-0 flex-wrap items-center gap-2">
+                <a
+                  href="./Equinox-Ledger.msix"
+                  download="Equinox-Ledger.msix"
+                  onClick={() =>
+                    showToast(
+                      'Downloading Equinox-Ledger.msix (Microsoft Store MSIX package).'
+                    )
+                  }
+                  className="flex items-center gap-1.5 rounded-lg border border-white/[0.12] bg-[#181a1f] px-3 py-2 text-[12px] font-medium text-white transition hover:bg-white/[0.1]"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Download .msix</span>
+                </a>
+
+                <a
+                  href="./Equinox-Ledger-Store-Installer.exe"
+                  download="Equinox-Ledger-Store-Installer.exe"
+                  onClick={() =>
+                    showToast(
+                      'Downloading Equinox-Ledger-Store-Installer.exe (supports /S silent install for Microsoft Partner Center).'
+                    )
+                  }
+                  className="flex items-center gap-1.5 rounded-lg border border-white/[0.12] bg-[#181a1f] px-3 py-2 text-[12px] font-medium text-white transition hover:bg-white/[0.1]"
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  <span>Store Setup .exe</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3 font-mono text-[11px]">
+              <div className="rounded-lg border border-white/[0.06] bg-[#14161a] p-2.5">
+                <div className="text-[#71717a]">Partner Center Silent Flag</div>
+                <div className="mt-0.5 text-white">/S</div>
+              </div>
+              <div className="rounded-lg border border-white/[0.06] bg-[#14161a] p-2.5">
+                <div className="text-[#71717a]">Store Category</div>
+                <div className="mt-0.5 text-white">Personal Finance</div>
+              </div>
+              <div className="rounded-lg border border-white/[0.06] bg-[#14161a] p-2.5">
+                <div className="text-[#71717a]">Privacy Policy (10.5.1)</div>
+                <div className="mt-0.5">
+                  <a
+                    href="./privacy.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[#78b090] underline underline-offset-2"
+                  >
+                    /privacy.html
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Option 3: Local Hard-Drive Database Vault (.equinox.json) */}
+          <div className="rounded-xl border border-white/[0.08] bg-[#0c0d0f] p-4">
+            <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+              <div>
+                <div className="flex items-center gap-2">
+                  <HardDrive className="h-4 w-4 text-[#c4a468]" />
+                  <h3 className="text-[14px] font-medium text-white">
+                    3. Local Desktop Database File (.equinox.json)
                   </h3>
                 </div>
                 <p className="mt-1 text-[12px] leading-relaxed text-[#8a8f98]">
@@ -252,29 +334,15 @@ export const DesktopDownloadModal: React.FC<DesktopDownloadModalProps> = ({
             </div>
           </div>
 
-          {/* Option 3: Electron Builder CLI */}
-          <div className="rounded-xl border border-white/[0.08] bg-[#0c0d0f] p-4">
-            <div className="flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-[#c4a468]" />
-              <h3 className="text-[14px] font-medium text-white">
-                3. Rebuild or Customize Desktop Binary
-              </h3>
-            </div>
-            <p className="mt-1 text-[12px] leading-relaxed text-[#8a8f98]">
-              To recompile the standalone <code className="font-mono">.exe</code>{' '}
-              after making code changes or launch via Electron:
-            </p>
-            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 font-mono text-[11px]">
-              <div className="rounded-lg border border-white/[0.06] bg-[#14161a] p-2.5">
-                <div className="text-[#71717a]">
-                  # Rebuild standalone Windows .exe
-                </div>
-                <div className="mt-1 text-white">npm run build:exe</div>
-              </div>
-              <div className="rounded-lg border border-white/[0.06] bg-[#14161a] p-2.5">
-                <div className="text-[#71717a]"># Launch Electron window</div>
-                <div className="mt-1 text-white">npm run desktop</div>
-              </div>
+          {/* Microsoft Store Certification Compliance Note */}
+          <div className="flex items-center justify-between gap-3 rounded-xl border border-white/[0.06] bg-[#14161a] px-4 py-3 text-[12px]">
+            <div className="flex items-center gap-2 text-[#8a8f98]">
+              <ShieldCheck className="h-4 w-4 shrink-0 text-[#78b090]" />
+              <span>
+                100% local-first storage — passes Microsoft Store Policy 10.5.1
+                (Privacy) &amp; 10.2 (Security). Rebuild anytime via{' '}
+                <code className="font-mono text-white">npm run build:store</code>.
+              </span>
             </div>
           </div>
 

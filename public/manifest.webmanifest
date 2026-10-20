@@ -1,20 +1,125 @@
 {
+  "id": "com.equinox.ledger",
   "name": "Equinox Ledger — Multi-Currency Financial Engine",
-  "short_name": "Equinox",
-  "description": "Local-first multi-currency personal & solo-business financial ledger with life-hours and reverse budgeting.",
+  "short_name": "Equinox Ledger",
+  "description": "Local-first multi-currency personal & solo-business financial ledger with life-hours opportunity cost, reverse budgeting, and tax reserve firewalls.",
+  "lang": "en-US",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
   "background_color": "#0c0d0f",
   "theme_color": "#0c0d0f",
   "categories": ["finance", "productivity", "business"],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "prefer_related_applications": false,
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 420
+  },
   "icons": [
+    {
+      "src": "./icons/icon-44x44.png",
+      "sizes": "44x44",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-50x50.png",
+      "sizes": "50x50",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-150x150.png",
+      "sizes": "150x150",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512x512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
     {
       "src": "./icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any maskable"
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./screenshots/store-dark-1280x800.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Equinox Ledger — Dark Slate Financial Terminal & Safe-to-Spend Gauge"
+    },
+    {
+      "src": "./screenshots/store-light-1280x800.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Equinox Ledger — Warm Editorial Paper Light Theme"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Quick Entry (Omnibar)",
+      "short_name": "Quick Entry",
+      "description": "Log a personal or business transaction in seconds",
+      "url": "./?view=overview",
+      "icons": [
+        {
+          "src": "./icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Transactions & Tax Firewall",
+      "short_name": "Tax Log",
+      "description": "Review business write-offs and export CSV/JSON",
+      "url": "./?view=ledger",
+      "icons": [
+        {
+          "src": "./icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Cooling-Off List",
+      "short_name": "Cooldown",
+      "description": "Check impulse purchases in waiting period",
+      "url": "./?view=cooldown",
+      "icons": [
+        {
+          "src": "./icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ]
 }

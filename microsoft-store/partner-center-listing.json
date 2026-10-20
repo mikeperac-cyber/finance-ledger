@@ -1,0 +1,43 @@
+{
+  "appName": "Equinox Ledger",
+  "identityName": "EquinoxLedger.FinancialEngine",
+  "version": "1.1.0.0",
+  "category": "Personal Finance",
+  "subCategory": "Accounting & Bookkeeping",
+  "ageRating": "3+ / Everyone (IARC)",
+  "shortDescription": "Local-first multi-currency personal & solo-business financial ledger with life-hours opportunity cost, reverse budgeting, and tax reserve firewalls.",
+  "fullDescription": "Equinox Ledger is a privacy-first, multi-currency financial workspace designed for individuals, freelancers, and solopreneurs.\n\nInstead of forcing rigid category micro-budgets or uploading bank credentials to third-party servers, Equinox computes your Daily Safe-to-Spend Allowance (Reverse Budgeting), converts every expense into Life Hours based on your true net hourly rate, and automatically partitions incoming business revenue into an untouchable Tax Reserve.\n\nKey Features:\n• Net Hourly Earning Engine — View every transaction in both nominal currency and Life Hours of labor.\n• Reverse Budgeting & Safe-to-Spend Gauge — Deducts tax reserves and fixed monthly commitments automatically so you know your exact guilt-free daily allowance.\n• Solo-Biz vs. Personal Tax Firewall — Tag revenue and deductible business expenses; export accountant-ready CSV and JSON reports.\n• Multi-Currency & FX Runway — Track accounts across USD, EUR, GBP, TRY, CHF, and JPY with real-time living runway in months.\n• Quick-Entry NLP Omnibar (Ctrl+K) — Log expenses or income in under 2 seconds using plain language.\n• Impulse Cooling-Off List — Enforce labor-based waiting periods on high-ticket purchases.\n• Dual Theme — Switch seamlessly between Matte Carbon Dark Theme and Warm Editorial Paper Light Theme.\n• 100% Local-First Privacy — Zero cloud telemetry, zero tracking, and portable .equinox.json vault backups.",
+  "features": [
+    "Life-Hours Opportunity Cost Engine (Currency + Work Hours display)",
+    "Reverse Budgeting & Daily Safe-to-Spend Allowance",
+    "Solo-Business vs. Personal Tax Reserve Firewall with CSV/JSON Export",
+    "Multi-Currency Account Ledger & Living Runway Calculator (USD, EUR, GBP, TRY, CHF, JPY)",
+    "Keyboard-First Quick-Entry Omnibar (Ctrl+K / Cmd+K)",
+    "Impulse Purchase Cooling-Off Chamber with Countdown Timers",
+    "Warm Editorial Light Theme & Matte Slate Dark Theme",
+    "100% Offline Local Storage with .equinox.json Database Vault Export"
+  ],
+  "searchKeywords": [
+    "personal finance",
+    "budget tracker",
+    "multi currency ledger",
+    "solopreneur accounting",
+    "freelance tax tracker",
+    "expense manager",
+    "offline budget"
+  ],
+  "win32SubmissionParameters": {
+    "installerExecutable": "microsoft-store/Equinox-Ledger-Store-Installer.exe",
+    "silentInstallSwitch": "/S",
+    "silentUninstallSwitch": "/uninstall /S",
+    "installerArchitecture": "x64",
+    "installerScope": "perUser"
+  },
+  "msixSubmissionParameters": {
+    "packageFile": "microsoft-store/Equinox-Ledger.msix",
+    "manifestFile": "microsoft-store/AppxManifest.xml",
+    "processorArchitecture": "x64",
+    "minWindowsVersion": "10.0.17763.0"
+  },
+  "privacyPolicyUrl": "https://mikeperac-cyber.github.io/finance-ledger/privacy.html"
+}
