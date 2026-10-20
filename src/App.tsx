@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BookOpen, Sliders } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Sliders, Monitor } from 'lucide-react';
 import {
   AdaptiveSidebar,
   CompactHeaderBar,
@@ -14,6 +14,10 @@ import { FxRunwayModule } from './components/FxRunwayModule';
 import { InstructionsPage } from './components/InstructionsPage';
 import { ProfileConfigModal } from './components/ProfileConfigModal';
 import { TaxExportModal } from './components/TaxExportModal';
+import {
+  DesktopDownloadModal,
+  BeforeInstallPromptEvent,
+} from './components/DesktopDownloadModal';
 import { MobileBottomSheetInput } from './components/MobileBottomSheetInput';
 import { useLedgerStore } from './store/useLedgerStore';
 
@@ -22,6 +26,18 @@ export function App() {
     useState<WorkspaceSection>('overview');
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [isTaxExportOpen, setIsTaxExportOpen] = useState(false);
+  const [isDesktopModalOpen, setIsDesktopModalOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
+    };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
 
   const { profile, transactions, accounts } = useLedgerStore();
   const isFreshState =
@@ -52,11 +68,19 @@ export function App() {
                       <span className="font-medium text-white">
                         Welcome to Equinox.
                       </span>{' '}
-                      Your ledger is empty and ready. Start by setting your
-                      monthly income &amp; work hours, or read the quick-entry
-                      guide.
+                      Your ledger is empty and ready. Set your monthly income
+                      &amp; work hours, read the guide, or download the desktop
+                      app.
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setIsDesktopModalOpen(true)}
+                        className="flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#1c1f26] px-3 py-1.5 text-[12px] font-medium text-[#e4e4e7] transition hover:bg-white/[0.12]"
+                      >
+                        <Monitor className="h-3.5 w-3.5 text-[#78b090]" />
+                        <span>Desktop App</span>
+                      </button>
                       <button
                         type="button"
                         onClick={() => setActiveSection('instructions')}
@@ -155,6 +179,7 @@ export function App() {
                   onSelectSection={setActiveSection}
                   onOpenConfig={() => setIsConfigOpen(true)}
                   onOpenTaxExport={() => setIsTaxExportOpen(true)}
+                  onOpenDesktopModal={() => setIsDesktopModalOpen(true)}
                 />
                 <main className="min-w-0 flex-1 overflow-y-auto">
                   {renderMainWorkspace()}
@@ -168,6 +193,7 @@ export function App() {
                   onSelectSection={setActiveSection}
                   onOpenConfig={() => setIsConfigOpen(true)}
                   onOpenTaxExport={() => setIsTaxExportOpen(true)}
+                  onOpenDesktopModal={() => setIsDesktopModalOpen(true)}
                 />
                 <main className="flex-1">{renderMainWorkspace()}</main>
                 {constraints.sizeClass === 'compact' && (
@@ -185,6 +211,13 @@ export function App() {
             <TaxExportModal
               isOpen={isTaxExportOpen}
               onClose={() => setIsTaxExportOpen(false)}
+            />
+
+            <DesktopDownloadModal
+              isOpen={isDesktopModalOpen}
+              onClose={() => setIsDesktopModalOpen(false)}
+              deferredPrompt={deferredPrompt}
+              onClearDeferredPrompt={() => setDeferredPrompt(null)}
             />
           </>
         );

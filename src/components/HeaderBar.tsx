@@ -5,6 +5,7 @@ import {
   Trash2,
   Plus,
   BookOpen,
+  Monitor,
 } from 'lucide-react';
 import { useLedgerStore } from '../store/useLedgerStore';
 import {
@@ -26,6 +27,7 @@ interface NavigationProps {
   onSelectSection: (section: WorkspaceSection) => void;
   onOpenConfig: () => void;
   onOpenTaxExport: () => void;
+  onOpenDesktopModal: () => void;
 }
 
 const CURRENCY_LIST: CurrencyCode[] = ['USD', 'EUR', 'GBP', 'TRY', 'CHF', 'JPY'];
@@ -35,6 +37,7 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
   onSelectSection,
   onOpenConfig,
   onOpenTaxExport,
+  onOpenDesktopModal,
 }) => {
   const {
     profile,
@@ -258,6 +261,16 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
           </div>
         </div>
 
+        {/* Desktop App Download Button */}
+        <button
+          type="button"
+          onClick={onOpenDesktopModal}
+          className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#181a1f] px-3 py-2 text-[12px] font-medium text-white transition hover:border-white/25 hover:bg-white/[0.1]"
+        >
+          <Monitor className="h-3.5 w-3.5 text-[#78b090]" />
+          <span>Download Desktop App</span>
+        </button>
+
         {/* Utility Actions */}
         <div className="flex items-center gap-1.5">
           <button
@@ -300,6 +313,7 @@ export const CompactHeaderBar: React.FC<NavigationProps> = ({
   onSelectSection,
   onOpenConfig,
   onOpenTaxExport,
+  onOpenDesktopModal,
 }) => {
   const { profile, currencies, setBaseCurrency, updateProfile } =
     useLedgerStore();
@@ -360,6 +374,15 @@ export const CompactHeaderBar: React.FC<NavigationProps> = ({
               </option>
             ))}
           </select>
+
+          <button
+            type="button"
+            onClick={onOpenDesktopModal}
+            className="flex items-center gap-1 rounded-md border border-white/[0.08] bg-[#16181d] px-2.5 py-1 text-xs font-medium text-white"
+          >
+            <Monitor className="h-3 w-3 text-[#78b090]" />
+            <span>Desktop</span>
+          </button>
 
           <button
             type="button"

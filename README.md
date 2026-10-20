@@ -11,9 +11,17 @@ A local-first, responsive financial management application combining rapid micro
 - **Zero-Friction Micro-Ledger Omnibar (`⌘/Ctrl + K`)**: Natural shorthand entry (`"lunch 18 card"`, `"client retainer 1500 usd biz"`, `"software sub 45 eur tax"`).
 - **Cooling-Off List (Impulse Cooldown Chamber)**: Enforces a labor-proportional waiting period (`Life Hours × Multiplier`) with live countdown timers before high-ticket purchases can be approved or skipped.
 
-## Getting Started
+## Running & Downloading as a Desktop App
 
-```bash
-npm install
-npm run dev
-```
+1. **In-App Desktop Installer & Launcher**:
+   Click **Download Desktop App** in the sidebar to install Equinox as a standalone OS window (PWA), download the Windows Desktop Launcher (`Equinox-Ledger-Desktop.bat`), or save/load `.equinox.json` database files directly on your computer's hard drive.
+2. **One-Click Windows Desktop Launch**:
+   Double-click `Start-Equinox-Desktop.bat` in the project folder to launch Equinox in a dedicated, borderless desktop window.
+3. **Native Electron Desktop App (`.exe` / `.dmg` / `.AppImage`)**:
+   ```bash
+   npm install
+   # Launch native Electron window
+   npm run desktop
+   # Build standalone desktop executable into release/
+   npm run desktop:build
+   ```

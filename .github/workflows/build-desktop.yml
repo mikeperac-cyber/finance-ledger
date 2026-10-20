@@ -1,0 +1,42 @@
+name: Build Desktop App (Windows, macOS, Linux)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web bundle
+        run: npm run build
+
+      - name: Package Electron Desktop App
+        run: npx --yes electron-builder --dir
+
+      - name: Upload Desktop App Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Equinox-Desktop-${{ matrix.os }}
+          path: |
+            release/*
+            !release/*.blockmap

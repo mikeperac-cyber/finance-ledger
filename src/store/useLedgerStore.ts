@@ -99,6 +99,7 @@ interface LedgerState {
 
   // System Actions
   clearAllData: () => void;
+  importBackupData: (data: Partial<LedgerState>) => void;
 }
 
 export const useLedgerStore = create<LedgerState>()(
@@ -476,6 +477,16 @@ export const useLedgerStore = create<LedgerState>()(
           transactions: [],
           cooldownItems: [],
         }),
+
+      importBackupData: (data) =>
+        set((state) => ({
+          profile: data.profile ? { ...state.profile, ...data.profile } : state.profile,
+          currencies: data.currencies ? { ...state.currencies, ...data.currencies } : state.currencies,
+          accounts: Array.isArray(data.accounts) ? data.accounts : state.accounts,
+          commitments: Array.isArray(data.commitments) ? data.commitments : state.commitments,
+          transactions: Array.isArray(data.transactions) ? data.transactions : state.transactions,
+          cooldownItems: Array.isArray(data.cooldownItems) ? data.cooldownItems : state.cooldownItems,
+        })),
     }),
     {
       name: 'equinox-ledger-clean-v1',
