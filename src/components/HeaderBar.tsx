@@ -6,6 +6,8 @@ import {
   Plus,
   BookOpen,
   Monitor,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useLedgerStore } from '../store/useLedgerStore';
 import {
@@ -46,11 +48,13 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
     cooldownItems,
     setBaseCurrency,
     updateProfile,
+    toggleTheme,
     clearAllData,
   } = useLedgerStore();
 
   const hourlyRate = computeNetHourlyRate(profile);
   const base = profile.baseCurrency;
+  const isLight = profile.theme === 'light';
   const activeCooldownCount = cooldownItems.filter(
     (c) => c.status === 'cooling'
   ).length;
@@ -81,11 +85,11 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
   };
 
   return (
-    <aside className="flex w-[256px] shrink-0 flex-col justify-between border-r border-white/[0.07] bg-[#0f1013] px-4 py-5 select-none">
+    <aside className="flex w-[268px] shrink-0 flex-col justify-between border-r border-white/[0.07] bg-[#0f1013] px-4 py-5 select-none">
       <div className="space-y-6">
-        {/* Brand & Base Currency */}
-        <div className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-2.5">
+        {/* Brand, Theme Switcher & Base Currency */}
+        <div className="flex items-center justify-between gap-2 px-1">
+          <div className="flex items-center gap-2 shrink-0">
             <div className="flex h-6 w-6 items-center justify-center rounded-md border border-white/15 bg-white/[0.04]">
               <div className="h-2.5 w-2.5 rounded-full border-[1.5px] border-[#ededef]" />
             </div>
@@ -94,20 +98,40 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
             </span>
           </div>
 
-          <select
-            id="sidebar-base-currency"
-            name="baseCurrency"
-            aria-label="Primary Base Currency"
-            value={profile.baseCurrency}
-            onChange={(e) => setBaseCurrency(e.target.value as CurrencyCode)}
-            className="cursor-pointer rounded-md border border-white/[0.08] bg-[#16181d] px-2 py-1 font-mono text-xs font-medium text-[#d4d4d8] transition hover:border-white/20 focus:outline-none"
-          >
-            {CURRENCY_LIST.map((code) => (
-              <option key={code} value={code} className="bg-[#121316] text-white">
-                {code} ({currencies[code].symbol.trim()})
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              title={isLight ? 'Switch to dark theme' : 'Switch to light theme'}
+              aria-label="Toggle color theme"
+              className="rounded-md border border-white/[0.08] bg-[#16181d] p-1.5 text-[#8a8f98] transition hover:border-white/20 hover:text-white"
+            >
+              {isLight ? (
+                <Moon className="h-3.5 w-3.5" />
+              ) : (
+                <Sun className="h-3.5 w-3.5" />
+              )}
+            </button>
+
+            <select
+              id="sidebar-base-currency"
+              name="baseCurrency"
+              aria-label="Primary Base Currency"
+              value={profile.baseCurrency}
+              onChange={(e) => setBaseCurrency(e.target.value as CurrencyCode)}
+              className="cursor-pointer rounded-md border border-white/[0.08] bg-[#16181d] px-2 py-1 font-mono text-xs font-medium text-[#d4d4d8] transition hover:border-white/20 focus:outline-none"
+            >
+              {CURRENCY_LIST.map((code) => (
+                <option
+                  key={code}
+                  value={code}
+                  className="bg-[#121316] text-white"
+                >
+                  {code} ({currencies[code].symbol.trim()})
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Navigation Links */}
@@ -198,7 +222,7 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
         </div>
       </div>
 
-      {/* Bottom Controls: Work Rate, Display Toggle, Export & Settings */}
+      {/* Bottom Controls: Work Rate, Display Toggle, Desktop .exe Download & Settings */}
       <div className="space-y-3 border-t border-white/[0.06] pt-4">
         {/* Work Rate Card */}
         <div className="rounded-lg border border-white/[0.07] bg-[#14161a] p-3">
@@ -261,14 +285,14 @@ export const AdaptiveSidebar: React.FC<NavigationProps> = ({
           </div>
         </div>
 
-        {/* Desktop App Download Button */}
+        {/* Desktop .exe App Download Button */}
         <button
           type="button"
           onClick={onOpenDesktopModal}
           className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#181a1f] px-3 py-2 text-[12px] font-medium text-white transition hover:border-white/25 hover:bg-white/[0.1]"
         >
           <Monitor className="h-3.5 w-3.5 text-[#78b090]" />
-          <span>Download Desktop App</span>
+          <span>Download Desktop (.exe)</span>
         </button>
 
         {/* Utility Actions */}
@@ -315,10 +339,16 @@ export const CompactHeaderBar: React.FC<NavigationProps> = ({
   onOpenTaxExport,
   onOpenDesktopModal,
 }) => {
-  const { profile, currencies, setBaseCurrency, updateProfile } =
-    useLedgerStore();
+  const {
+    profile,
+    currencies,
+    setBaseCurrency,
+    updateProfile,
+    toggleTheme,
+  } = useLedgerStore();
   const hourlyRate = computeNetHourlyRate(profile);
   const base = profile.baseCurrency;
+  const isLight = profile.theme === 'light';
 
   return (
     <header className="border-b border-white/[0.07] bg-[#0f1013] px-4 py-3">
@@ -343,6 +373,20 @@ export const CompactHeaderBar: React.FC<NavigationProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            title={isLight ? 'Switch to dark theme' : 'Switch to light theme'}
+            aria-label="Toggle color theme"
+            className="rounded-md border border-white/[0.08] bg-[#16181d] p-1.5 text-[#d4d4d8]"
+          >
+            {isLight ? (
+              <Moon className="h-3.5 w-3.5" />
+            ) : (
+              <Sun className="h-3.5 w-3.5" />
+            )}
+          </button>
+
           <button
             type="button"
             onClick={() =>
@@ -381,7 +425,7 @@ export const CompactHeaderBar: React.FC<NavigationProps> = ({
             className="flex items-center gap-1 rounded-md border border-white/[0.08] bg-[#16181d] px-2.5 py-1 text-xs font-medium text-white"
           >
             <Monitor className="h-3 w-3 text-[#78b090]" />
-            <span>Desktop</span>
+            <span>.exe</span>
           </button>
 
           <button

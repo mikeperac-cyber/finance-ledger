@@ -13,6 +13,12 @@
     color: #ededef;
     overflow-x: hidden;
     letter-spacing: -0.011em;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  html.light body {
+    background-color: #f6f6f3;
+    color: #18181b;
   }
 
   code, pre, .font-mono {
@@ -31,7 +37,114 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* Subtle matte scrollbars */
+/* ==========================================================================
+   HUMANIZED DAYLIGHT / PAPER LIGHT THEME OVERRIDES (html.light)
+   ========================================================================== */
+html.light .bg-\[\#0c0d0f\] {
+  background-color: #f4f4f0 !important;
+}
+
+html.light .bg-\[\#0f1013\],
+html.light .bg-\[\#0f1013\]\/95 {
+  background-color: #eeeee8 !important;
+}
+
+html.light .bg-\[\#121417\],
+html.light .bg-\[\#121316\] {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.04);
+}
+
+html.light .bg-\[\#14161a\],
+html.light .bg-\[\#16181d\],
+html.light .bg-\[\#181a1f\],
+html.light .bg-\[\#1c1f26\] {
+  background-color: #efefea !important;
+}
+
+html.light .bg-\[\#1f2228\] {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 2px rgba(24, 24, 27, 0.08);
+}
+
+html.light .bg-\[\#ededef\] {
+  background-color: #18181b !important;
+}
+
+html.light .bg-\[\#ededef\]:hover {
+  background-color: #27272a !important;
+}
+
+html.light .text-\[\#0c0d0f\] {
+  color: #ffffff !important;
+}
+
+html.light .bg-white\/\[0\.02\] {
+  background-color: rgba(24, 24, 27, 0.02) !important;
+}
+
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.06\],
+html.light .bg-white\/\[0\.08\],
+html.light .bg-white\/\[0\.1\] {
+  background-color: rgba(24, 24, 27, 0.065) !important;
+}
+
+html.light .text-white,
+html.light .text-\[\#ededef\],
+html.light .text-\[\#f3f4f6\],
+html.light .text-\[\#e4e4e7\] {
+  color: #18181b !important;
+}
+
+html.light .text-\[\#d4d4d8\],
+html.light .text-\[\#a1a1aa\] {
+  color: #484842 !important;
+}
+
+html.light .text-\[\#8a8f98\],
+html.light .text-\[\#71717a\],
+html.light .text-\[\#63666e\],
+html.light .text-\[\#52525b\] {
+  color: #6e6e67 !important;
+}
+
+html.light .placeholder-\[\#63666e\]::placeholder {
+  color: #8f8f87 !important;
+}
+
+html.light .text-\[\#78b090\],
+html.light .text-\[\#5e9e79\] {
+  color: #146c43 !important;
+}
+
+html.light .text-\[\#c4a468\] {
+  color: #96620f !important;
+}
+
+html.light .border-white\/\[0\.04\],
+html.light .border-white\/\[0\.05\],
+html.light .border-white\/\[0\.06\],
+html.light .border-white\/\[0\.07\],
+html.light .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.09\],
+html.light .border-white\/\[0\.1\],
+html.light .border-white\/\[0\.12\],
+html.light .border-white\/15,
+html.light .border-white\/20,
+html.light .border-white\/25,
+html.light .border-white\/30 {
+  border-color: rgba(24, 24, 27, 0.1) !important;
+}
+
+html.light .divide-white\/\[0\.05\] > :not([hidden]) ~ :not([hidden]),
+html.light .divide-white\/\[0\.06\] > :not([hidden]) ~ :not([hidden]),
+html.light .divide-white\/\[0\.07\] > :not([hidden]) ~ :not([hidden]),
+html.light .divide-white\/\[0\.08\] > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgba(24, 24, 27, 0.085) !important;
+}
+
+/* Scrollbars */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -42,10 +155,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(128, 128, 128, 0.2);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(128, 128, 128, 0.35);
 }

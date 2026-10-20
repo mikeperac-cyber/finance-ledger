@@ -40,6 +40,18 @@ export function App() {
   }, []);
 
   const { profile, transactions, accounts } = useLedgerStore();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (profile.theme === 'light') {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    } else {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    }
+  }, [profile.theme]);
+
   const isFreshState =
     profile.monthlyNetIncome === 0 &&
     transactions.length === 0 &&

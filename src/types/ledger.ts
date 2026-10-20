@@ -88,6 +88,8 @@ export interface FinancialProfile {
   cooldownMultiplier: number;
   /** Global display preference for Currency vs Life Hours */
   displayMode: DisplayMode;
+  /** UI color theme ('dark' | 'light') */
+  theme?: 'dark' | 'light';
 }
 
 export interface ParsedCommandResult {

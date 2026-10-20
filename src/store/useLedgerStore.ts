@@ -28,6 +28,7 @@ export const INITIAL_PROFILE: FinancialProfile = {
   locationName: 'Current Location',
   cooldownMultiplier: 1.0,
   displayMode: 'dual',
+  theme: 'dark',
 };
 
 export const INITIAL_ACCOUNTS: Account[] = [];
@@ -71,6 +72,7 @@ interface LedgerState {
 
   // Profile & Settings Actions
   updateProfile: (patch: Partial<FinancialProfile>) => void;
+  toggleTheme: () => void;
   setBaseCurrency: (currency: CurrencyCode) => void;
   updateExchangeRate: (currency: CurrencyCode, ratePerUSD: number) => void;
   simulateFxTick: () => void;
@@ -115,6 +117,14 @@ export const useLedgerStore = create<LedgerState>()(
       updateProfile: (patch) =>
         set((state) => ({
           profile: { ...state.profile, ...patch },
+        })),
+
+      toggleTheme: () =>
+        set((state) => ({
+          profile: {
+            ...state.profile,
+            theme: state.profile.theme === 'light' ? 'dark' : 'light',
+          },
         })),
 
       setBaseCurrency: (newBase) =>
